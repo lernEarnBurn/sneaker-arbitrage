@@ -1,0 +1,25 @@
+{
+  "name": "shoearbitrage",
+  "version": "1.0.0",
+  "description": "a web scraper that scrapes both Nike and StockX and compares shoe prices made in nodejs",
+  "main": "nikeScrape.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lernercodes459/shoeArbitrage.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lernercodes459/shoeArbitrage/issues"
+  },
+  "homepage": "https://github.com/lernercodes459/shoeArbitrage#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "puppeteer": "^19.6.3",
+    "request-promise": "^4.2.6"
+  }
+}
