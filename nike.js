@@ -3,7 +3,7 @@ const fs = require('fs')
 
 
 //feature to add men and womans to json as well as category to help discern similar listings
-async function allNikeShoes(){
+async function getNikeShoes(){
     let shoes = [[], []]
 
     const browser = await puppeteer.launch()
@@ -25,10 +25,7 @@ async function allNikeShoes(){
             const prices = Array.from(document.querySelectorAll('.product-price.is--current-price'))
             return [names.map((name) => name.innerText), prices.map((price) => price.innerText.slice(1))]
         })
-
-        console.log(shoes[0].length)
-        console.log(shoes[1].length)
-        
+        consoel.log('scrolling...')
         previousHeight = await page.evaluate("document.body.scrollHeight")
 
         if(originalHeight != previousHeight){
@@ -41,7 +38,8 @@ async function allNikeShoes(){
         await new Promise((resolve) => setTimeout(resolve, 2000))
     }
 
-    //removes gift cards
+    
+    console.log('removing irrelevant listings...')
     for(let x = 0; x < shoes[0].length; x++){
         if(shoes[0][x] == 'Nike Gift Card' || shoes[0][x] == 'Nike Digital Gift Card'){
             shoes[0].splice(x, 1)
@@ -49,8 +47,7 @@ async function allNikeShoes(){
     }
    
    
-    console.log(shoes[0].length)
-    console.log(shoes[1].length)
+    console.log('writing json...')
 
     let jsonArray = []
     for(let i = 0; i < shoes[0].length; i++){
@@ -67,4 +64,4 @@ async function allNikeShoes(){
 
 
 
-allNikeShoes()
+getNikeShoes()

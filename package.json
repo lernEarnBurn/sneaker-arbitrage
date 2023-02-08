@@ -20,6 +20,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "puppeteer": "^19.6.3",
-    "request-promise": "^4.2.6"
+    "request-promise": "^4.2.6",
+    "user-agent": "^1.0.4"
   }
 }
