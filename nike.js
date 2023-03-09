@@ -4,6 +4,8 @@ const fs = require('fs')
 
 //feature to add men and womans to json as well as category to help discern similar listings
 async function getNikeShoes(){
+    console.log('starting...')
+
     let shoes = [[], []]
 
     const browser = await puppeteer.launch()
@@ -25,7 +27,7 @@ async function getNikeShoes(){
             const prices = Array.from(document.querySelectorAll('.product-price.is--current-price'))
             return [names.map((name) => name.innerText), prices.map((price) => price.innerText.slice(1))]
         })
-        consoel.log('scrolling...')
+        console.log('scrolling...')
         previousHeight = await page.evaluate("document.body.scrollHeight")
 
         if(originalHeight != previousHeight){
@@ -52,7 +54,7 @@ async function getNikeShoes(){
     let jsonArray = []
     for(let i = 0; i < shoes[0].length; i++){
         let shoe = {}
-        shoe.name = shoes[0][i]
+        shoe.name = checkName(shoes[0][i])
         shoe.price = shoes[1][i]
         jsonArray.push(shoe)
     }
@@ -62,6 +64,18 @@ async function getNikeShoes(){
     await browser.close()
 }
 
+//shortens long names with collab while keeping the integrity of the listing intact
+function checkName(string) {
+    if (string.includes(' x ')) {
+      const parts = string.split(' x ');
+      return parts[0] + ' ' + parts[1].split(' ')[0];
+    } else {
+      return string;
+    }
+  }
+
+module.exports = {
+    getNikeShoes: getNikeShoes
+}
 
 
-getNikeShoes()
