@@ -19,47 +19,40 @@ async function main(){
     }else{
         await nike.getNikeShoes()
     }
-    
+
+    let arbitrage = []
     
     fs.readFile('./nike.json', (err, data) => {
         if (err){console.log(err)}
 
         let nikeJson = JSON.parse(data)
         
-        //need to fix the checkSneaker script
-        stock.checkSneaker(nikeJson[1]).then(function(stockPrice) {
+        stock.checkSneaker(nikeJson[107]).then(function(stockPrice) {
             console.log(stockPrice) 
+            addShoe(nikeJson[107], stockPrice)
         }).catch(function(error) {
             console.log(error);
         });
        
     }) 
-    
+
+    fs.writeFileSync('deals.json', JSON.stringify(arbitrage)) 
 }
 
 
-main()
+function addShoe(shoe, stockPrice){
+    if(isOppurtunity(shoe['price'], stockPrice)){
+        const analysis = {
+            'name' : shoe['name'],
+            'nike_price' : '$' + shoe['price'],
+            'stock_price' : '$' + stockPrice,
+            'difference' : '$' + (Number(stockPrice) - Number(shoe['price']))
+        }
 
-
-
-
-/*
-let arbitrage = []
-
-if(isOppurtunity(shoe['price'], stockPrice)){
-    const analysis = {
-        'name' : shoe['name'],
-        'nike_price' : '$' + shoe['price'],
-        'stock_price' : '$' + stockPrice,
-        'difference' : '$' + (Number(stockPrice) - Number(shoe['price']))
+        arbitrage.push(analysis)
     }
 
-    arbitrage.push(analysis)
 }
-
-console.log(arbitrage)
-
-
 
 function isOppurtunity(nikePrice, stockPrice){
     if(Number(nikePrice) >= Number(stockPrice) * 1.3){
@@ -68,4 +61,6 @@ function isOppurtunity(nikePrice, stockPrice){
         return false
     }
 }
-*/
+
+
+main()
