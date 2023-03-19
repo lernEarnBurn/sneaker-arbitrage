@@ -3,9 +3,10 @@ const stock = require('./stockX.js')
 const nike = require('./nike.js')
 const fs = require('fs')
 
+
 function fileExists(file){
     try{
-        fs.accessSync(file, fs.constants.F_OK)
+        fs.accessSync(file, fs.constants.F_OKs)
         return true
     }catch(err){
         return false
@@ -26,14 +27,15 @@ async function main(){
         if (err){console.log(err)}
 
         let nikeJson = JSON.parse(data)
-        
-        stock.checkSneaker(nikeJson[107]).then(function(stockPrice) {
-            console.log(stockPrice) 
-            addShoe(nikeJson[107], stockPrice)
-        }).catch(function(error) {
-            console.log(error);
-        });
-       
+
+        for(let i = 0; i < nikeJson.length; i++){
+            stock.checkSneaker(nikeJson[i]).then(function(stockPrice) {
+                console.log(stockPrice) 
+                addShoe(nikeJson[i], stockPrice)
+            }).catch(function(error) {
+                console.log(error);
+            });
+        }
     }) 
 
     fs.writeFileSync('deals.json', JSON.stringify(arbitrage)) 

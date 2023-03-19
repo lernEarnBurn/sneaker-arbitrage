@@ -85,7 +85,6 @@ async function checkSneaker(shoe){
         */
     })
     const page = await browser.newPage()
-  
     
     await page.setViewport({
         'width' : 1200, 
@@ -100,11 +99,13 @@ async function checkSneaker(shoe){
    
     
     const priceParent = await page.$('.css-aduuu0')
-    const price = await priceParent.$('.chakra-text')
+    const price = await priceParent.$('.css-nsvdd9')
 
     const stockPrice = await price.evaluate(price => price.innerText)
     
     await new Promise((resolve) => setTimeout(resolve, randomInt(1250, 2000)))
+   
+
     await browser.close()
 
     return stockPrice.substring(1)
