@@ -1,6 +1,8 @@
-const puppeteer = require('puppeteer')
 const fs = require('fs')
 const { v4: uuidv4 } = require('uuid');
+
+const { chromium } = require('playwright')
+
 
 
 
@@ -72,53 +74,31 @@ const customHeaders = {
     'user-agent': userAgents[randomInt(0, 10)]
 }
 
-//add in a feature that creates a unique cookie each time I run the checkStock func
 
 async function checkSneaker(shoe){
-    const browser = await puppeteer.launch({
-        headless : false,
-        defaultViewport : null,
-        /*
-        args : [
-            '--proxy-server=' + chooseProxy() 
-        ]
-        */
-    })
-    const page = await browser.newPage()
-    
-    await page.setViewport({
-        'width' : 1200, 
-        'height' : 800
-    })
-    
 
-    await page.setExtraHTTPHeaders(customHeaders)
-    await page.goto('https://stockx.com/search?s=' + generateLink(shoe['name']))
+    const browser = await chromium.launch({ headless: false });  
+    const page = await browser.newPage();
     
-    await page.waitForNavigation()
+    await page.goto('https://stockx.com/search?s=' + generateLink(shoe['name']), { headers: customHeaders });
+
+    const priceElem = await page.$('.chakra-text.css-nsvdd9');
+    const price = await priceElem.textContent()
    
-    
-    const priceParent = await page.$('.css-aduuu0')
-    const price = await priceParent.$('.css-nsvdd9')
+    await browser.close();    
 
-    const stockPrice = await price.evaluate(price => price.innerText)
-    
-    await new Promise((resolve) => setTimeout(resolve, randomInt(1250, 2000)))
-   
-
-    await browser.close()
-
-    return stockPrice.substring(1)
-    
+    return price.substring(1)
 }
+
+
 
 function generateLink(string){
     let finalString = ""
     const splitByWord = string.split(" ")
     for(const word of splitByWord){
-        finalString = finalString + word + '%20'
+        finalString = finalString + word + '-'
     }
-    return finalString
+    return finalString.substring(0, finalString.length - 1)
 }
 
 function randomInt(min, max) {
@@ -134,6 +114,9 @@ module.exports = {
     randomInt : randomInt
 }
 
+if (require.main === module) {
+    checkSneaker({"name":"Nike Pegasus Trail 3","price":"109.97"})
+}
 
 
 

@@ -1,6 +1,12 @@
 {
   "dependencies": {
     "puppeteer": "^19.7.5",
+    "puppeteer-core": "^19.7.5",
     "uuid": "^9.0.0"
-  }
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.32.0",
+    "playwright": "^1.32.0"
+  },
+  "scripts": {}
 }
