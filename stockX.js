@@ -82,9 +82,10 @@ async function checkSneaker(shoe){
     
     await page.goto('https://stockx.com/search?s=' + generateLink(shoe['name']), { headers: customHeaders });
 
-    const priceElem = await page.$('.chakra-text.css-nsvdd9');
+    const priceElem = await page.waitForSelector('.chakra-text.css-nsvdd9')
     const price = await priceElem.textContent()
-   
+    console.log(price)
+
     await browser.close();    
 
     return price.substring(1)
@@ -115,7 +116,7 @@ module.exports = {
 }
 
 if (require.main === module) {
-    checkSneaker({"name":"Nike Pegasus Trail 3","price":"109.97"})
+    checkSneaker({"name":"Nike ACG Moc 3.5","price":"95"})
 }
 
 
