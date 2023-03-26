@@ -22,6 +22,13 @@ async function main(){
     }
 
     let arbitrage = []
+
+    if(fileExists('deals.json')){
+        fs.unlink('deals.json', (err) => {
+            if (err) throw err;
+            console.log('File deleted successfully!');
+          });
+    }
     
     fs.readFile('./nike.json', (err, data) => {
         if (err){console.log(err)}
@@ -31,18 +38,19 @@ async function main(){
         for(let i = 0; i < nikeJson.length; i++){
             stock.checkSneaker(nikeJson[i]).then(function(stockPrice) {
                 console.log(stockPrice) 
-                addShoe(nikeJson[i], stockPrice)
+                addShoe(nikeJson[i], stockPrice, arbitrage)
             }).catch(function(error) {
                 console.log(error);
             });
         }
+        fs.writeFileSync('deals.json', JSON.stringify(arbitrage)) 
     }) 
 
-    fs.writeFileSync('deals.json', JSON.stringify(arbitrage)) 
+    
 }
 
 
-function addShoe(shoe, stockPrice){
+function addShoe(shoe, stockPrice, arbitrage){
     if(isOppurtunity(shoe['price'], stockPrice)){
         const analysis = {
             'name' : shoe['name'],
