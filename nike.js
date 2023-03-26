@@ -78,4 +78,7 @@ module.exports = {
     getNikeShoes: getNikeShoes
 }
 
+if (require.main === module) {
+    getNikeShoes()
+}
 
