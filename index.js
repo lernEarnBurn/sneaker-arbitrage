@@ -1,6 +1,6 @@
 
-const stock = require('./stockX.js')
-const nike = require('./nike.js')
+const stock = require('./scripts/stockX.js')
+const nike = require('./scripts/nike.js')
 const fs = require('fs')
 
 
@@ -55,9 +55,10 @@ function addShoe(shoe, stockPrice, arbitrage){
             'name' : shoe['name'],
             'nike_price' : '$' + shoe['price'],
             'stock_price' : '$' + stockPrice,
-            'difference' : `$${stockPrice - shoe['price']}`
+            'difference' : `$${shoe['price'] - stockPrice}`
         }
-
+        //low priority
+        //some code at end to organize arbitrage objects in highest to lowest difference
         arbitrage.push(analysis)
     }
 
@@ -65,7 +66,7 @@ function addShoe(shoe, stockPrice, arbitrage){
 }
 
 function isOppurtunity(nikePrice, stockPrice){
-    if(Number(nikePrice) >= Number(stockPrice) * 1.36){
+    if(Number(stockPrice) - Number(nikePrice) >= 45){
         return true
     }else{
         return false
