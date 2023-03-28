@@ -34,7 +34,6 @@ async function main(){
 
         for(let i = 0; i < nikeJson.length; i++){
             promises.push(stock.checkSneaker(nikeJson[i]).then(function(stockPrice) { 
-                console.log(`nike price: ${nikeJson[i]['price']}`)
                 addShoe(nikeJson[i], stockPrice, arbitrage)
             }).catch(function(error) {
                 console.log(error);
@@ -43,25 +42,20 @@ async function main(){
         }
 
         Promise.all(promises).then(() => {
-            console.log(arbitrage)
             fs.writeFileSync('deals.json', JSON.stringify(arbitrage))
         })
          
     })
-
-    
-    
 }
 
 
 function addShoe(shoe, stockPrice, arbitrage){
     if(isOppurtunity(shoe['price'], stockPrice)){
-        console.log('true')
         const analysis = {
             'name' : shoe['name'],
             'nike_price' : '$' + shoe['price'],
             'stock_price' : '$' + stockPrice,
-            'difference' : '$' + (Number(stockPrice) - Number(shoe['price']))
+            'difference' : `$${stockPrice - shoe['price']}`
         }
 
         arbitrage.push(analysis)
@@ -71,7 +65,7 @@ function addShoe(shoe, stockPrice, arbitrage){
 }
 
 function isOppurtunity(nikePrice, stockPrice){
-    if(Number(nikePrice) >= Number(stockPrice) * 1.3){
+    if(Number(nikePrice) >= Number(stockPrice) * 1.36){
         return true
     }else{
         return false

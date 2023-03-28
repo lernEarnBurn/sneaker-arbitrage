@@ -76,7 +76,7 @@ const customHeaders = {
 
 
 async function checkSneaker(shoe){
-
+    //maybe scrolling or interacting with the page in some way will make this work headless
     const browser = await chromium.launch({ headless: false });  
     const page = await browser.newPage();
     
