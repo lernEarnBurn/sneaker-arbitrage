@@ -59,7 +59,7 @@ async function getNikeShoes(){
         jsonArray.push(shoe)
     }
     
-    fs.writeFileSync('nike.json', JSON.stringify(jsonArray))
+    fs.writeFileSync('./json/nike.json', JSON.stringify(jsonArray))
     //number of price and name too high and not equal
     await browser.close()
 }

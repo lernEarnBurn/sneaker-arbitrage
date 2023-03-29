@@ -7,7 +7,7 @@ const fs = require('fs')
 let arbitrage = []
 
 async function main(){
-    if(fileExists('nike.json')){
+    if(fileExists('./json/nike.json')){
         console.log('Already have')
     }else{
         await nike.getNikeShoes()
@@ -15,8 +15,8 @@ async function main(){
 
    
 
-    if(fileExists('deals.json')){
-        fs.unlink('deals.json', (err) => {
+    if(fileExists('./json/deals.json')){
+        fs.unlink('./json/deals.json', (err) => {
             if (err) throw err;
             console.log('File deleted successfully!');
           });
@@ -42,7 +42,7 @@ async function main(){
         }
 
         Promise.all(promises).then(() => {
-            fs.writeFileSync('deals.json', JSON.stringify(arbitrage))
+            fs.writeFileSync('./json/deals.json', JSON.stringify(arbitrage))
         })
          
     })
