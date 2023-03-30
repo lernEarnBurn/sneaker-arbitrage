@@ -76,6 +76,9 @@ const customHeaders = {
 
 
 async function checkSneaker(shoe){
+    //helps keep it running a bit
+    await new Promise((resolve) => setTimeout(resolve,  Math.floor(Math.random() * 240000)))
+    
     //maybe scrolling or interacting with the page in some way will make this work headless
     const browser = await chromium.launch({ headless: false });  
     const page = await browser.newPage();
