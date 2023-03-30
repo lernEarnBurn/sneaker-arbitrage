@@ -22,12 +22,11 @@ async function main(){
           });
     }
     
-    /* Now that i am keeping track of promises I may be able to use
-       these to count all  browsers open and control the amount of them */
+    
     let promises = []
 
-    //code to choose how many browsers can open at once
-    fs.readFile('./nike.json', (err, data) => {
+    
+    fs.readFile('./json/nike.json', (err, data) => {
         if (err){console.log(err)}
 
         let nikeJson = JSON.parse(data)
@@ -57,9 +56,14 @@ function addShoe(shoe, stockPrice, arbitrage){
             'stock_price' : '$' + stockPrice,
             'difference' : `$${shoe['price'] - stockPrice}`
         }
+
+
         //low priority
         //some code at end to organize arbitrage objects in highest to lowest difference
         arbitrage.push(analysis)
+
+
+
     }
 
 
