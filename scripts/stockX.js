@@ -4,16 +4,31 @@ const { v4: uuidv4 } = require('uuid');
 const { chromium } = require('playwright')
 
 
+let proxyPointer = 0
+function rotateProxy(list){
+    const correctIndex = proxyPointer
 
+    if(proxyPointer == 9){
+        proxyPointer = 0
+    }else{
+        proxyPointer += 1
+    }
+
+    return list[correctIndex]
+}
 
 
 const proxyList = [
-    'http://71.255.153.117:80',
-    'http://208.70.77.222:1994',
-    'http://128.14.27.143:80',
-    'http://184.185.105.105:4481',
-    'http://66.152.169.73:1994',
-    'http://198.148.104.93:1994'
+    'http://2.56.119.93:5074',
+    //'http://185.199.229.156:7492',
+    //'http://185.199.228.220:7300',
+    'http://185.199.231.45:8382',
+    'http://188.74.210.207:6286',
+    'http://188.74.183.10:8279',
+    //'http://188.74.210.21:6100',
+    'http://45.155.68.129:8133',
+    //'http://154.95.36.199:6893',
+    'http://45.94.47.66:8110'
 ]
 
 const referers = [
@@ -80,7 +95,7 @@ async function checkSneaker(shoe){
     await new Promise((resolve) => setTimeout(resolve,  Math.floor(Math.random() * 240000)))
     
     //maybe scrolling or interacting with the page in some way will make this work headless
-    const browser = await chromium.launch({ headless: false });  
+    const browser = await chromium.launch({ headless: false, proxy : { server : rotateProxy(proxyList)} });  
     const page = await browser.newPage();
     
     await page.goto('https://stockx.com/search?s=' + generateLink(shoe['name']), { headers: customHeaders });
