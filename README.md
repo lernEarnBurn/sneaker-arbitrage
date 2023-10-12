@@ -13,6 +13,7 @@ js (webscraping with Puppeteer)
 
 
 
+
 a web scraper that scrapes both Nike and StockX and compares shoe prices.
 
 No longer works due to changes in the websites.
